@@ -3,10 +3,11 @@
 #include <thread>
 using namespace std;
 
-void hello(string msg) { cout << msg << "\n"; }
+void displayMessage(const string &message) { cout << message << "\n"; }
 
 int main() {
-  thread t(hello, "Hello from the superhero universe!");
+  string heroMessage = "Hello from the superhero universe!";
+  thread t(displayMessage, heroMessage);
   t.join();
   return 0;
 }
