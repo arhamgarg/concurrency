@@ -1,11 +1,12 @@
 #include <iostream>
+#include <string>
 #include <thread>
 using namespace std;
 
-void hello() { cout << "Hello from a thread!\n"; }
+void hello(string msg) { cout << msg << "\n"; }
 
 int main() {
-  thread t(hello);
+  thread t(hello, "Hello from the superhero universe!");
   t.join();
   return 0;
 }
