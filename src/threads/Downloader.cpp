@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <mutex>
 #include <random>
 #include <string>
 #include <thread>
@@ -14,20 +15,27 @@ public:
       : fileName_(fileName), rndEngine_(random_device{}()) {}
 
   void operator()() {
-    try {
+    {
+      lock_guard<mutex> lock(mutex_);
       cout << "Downloading " << fileName_ << "\n";
-      uniform_int_distribution<int> dist(100, 200);
-      this_thread::sleep_for(chrono::milliseconds(dist(rndEngine_)));
+    }
+
+    uniform_int_distribution<int> dist(100, 200);
+    this_thread::sleep_for(chrono::milliseconds(dist(rndEngine_)));
+
+    {
+      lock_guard<mutex> lock(mutex_);
       cout << "Completed " << fileName_ << "\n";
-    } catch (...) {
-      cout << "Download interrupted for " << fileName_ << "\n";
     }
   }
 
 private:
   string fileName_;
   mt19937 rndEngine_;
+  static mutex mutex_;
 };
+
+mutex Downloader::mutex_;
 
 #endif
 
