@@ -33,6 +33,6 @@ int main() {
   });
   dancer1.join();
   dancer2.join();
-  cout << "Total points: " << counter.getPoints() << endl;
+  cout << "Total points: " << counter.getPoints() << "\n";
   return 0;
 }
