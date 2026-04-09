@@ -5,12 +5,12 @@
 using namespace std;
 
 class SynchronisedCounter {
-  public:
+public:
   void incrementBy(int value) { count_.fetch_add(value, memory_order_relaxed); }
 
   int getCount() const { return count_.load(memory_order_relaxed); }
 
-  private:
+private:
   atomic<int> count_{0};
 };
 
