@@ -5,7 +5,7 @@ using namespace std;
 
 class SynchronisedCounter {
 public:
-  void increment() { count_.fetch_add(1, memory_order_relaxed); }
+  void incrementBy(int value) { count_.fetch_add(value, memory_order_relaxed); }
 
   int getCount() const { return count_.load(memory_order_relaxed); }
 
@@ -17,11 +17,11 @@ int main() {
   SynchronisedCounter counter;
   thread t1([&counter]() {
     for (int i = 0; i < 1000; ++i)
-      counter.increment();
+      counter.incrementBy(2);
   });
   thread t2([&counter]() {
     for (int i = 0; i < 1000; ++i)
-      counter.increment();
+      counter.incrementBy(2);
   });
   t1.join();
   t2.join();
